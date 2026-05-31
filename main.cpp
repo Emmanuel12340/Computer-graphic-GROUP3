@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    std::vector<std::string> imagePaths = { "C:/Users/USER/source/repos/GROUP3/Rendered_image.bmp",  };
+    std::vector<std::string> imagePaths = { "C:/Users/USER/source/repos/GROUP3/Rendered_image.bmp","C:/Users/USER/source/repos/GROUP3/SCENE 2(rendered).bmp",""};
     std::vector<SDL_Texture*> textures;
     for (const auto& path : imagePaths) {
         SDL_Texture* texture = nullptr;

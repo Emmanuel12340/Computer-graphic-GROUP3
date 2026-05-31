@@ -26,5 +26,8 @@
     <Image Include="..\..\..\Downloads\haunted2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="SCENE 2(rendered).bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
