@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
-    if (!SDL_CreateWindowAndRenderer("SDL3 Concrete Panel Gallery Wall", BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY, &window, &renderer)) {
+    if (!SDL_CreateWindowAndRenderer("SDL GROUP 3", BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY, &window, &renderer)) {
         std::cerr << "Window/Renderer creation failed: " << SDL_GetError() << std::endl;
         SDL_Quit();
         return -1;
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     std::cout << "[Asset Check] Loading asset textures natively..." << std::endl;
 
     SDL_Texture* backgroundTexture = nullptr;
-    SDL_Surface* bgSurface = SDL_LoadBMP("C:/Users/USER/source/repos/GROUP3/haunted2.bmp");
+    SDL_Surface* bgSurface = SDL_LoadBMP("C:/Users/USER/source/repos/GROUP3/background 2.bmp");
 
     SDL_FRect bgDestRect = { 0.0f, 0.0f, static_cast<float>(BASE_SCREEN_WIDTH), static_cast<float>(BASE_SCREEN_HEIGHT) };
 
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
                 bgDestRect.y = (static_cast<float>(BASE_SCREEN_HEIGHT) - bgDestRect.h) / 2.0f;
             }
 
-            SDL_SetTextureColorMod(backgroundTexture, 90, 100, 120);
+            SDL_SetTextureColorMod(backgroundTexture, 255, 255, 255);
         }
     }
 
@@ -122,24 +122,22 @@ int main(int argc, char* argv[]) {
 
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-        SDL_SetRenderDrawColor(renderer, 10, 12, 14, 240);
+        SDL_SetRenderDrawColor(renderer, 30, 30, 35, 200);
+
         for (int i = 0; i < 3; ++i) {
             float currentX = 0.0f;
             float currentY = 0.0f;
             float currentW = 0.0f;
-            float currentH = 0.0f;
 
-            if (i == 0) { currentX = topStartX; currentY = topRowY; currentW = topWidth; currentH = topHeight; }
-            else if (i == 1) { currentX = topStartX + topWidth + topRowGap; currentY = topRowY; currentW = topWidth; currentH = topHeight; }
-            else { currentX = bottomStartX; currentY = bottomRowY; currentW = bottomSize; currentH = bottomSize; }
+            if (i == 0) { currentX = topStartX; currentY = topRowY; currentW = topWidth; }
+            else if (i == 1) { currentX = topStartX + topWidth + topRowGap; currentY = topRowY; currentW = topWidth; }
+            else { currentX = bottomStartX; currentY = bottomRowY; currentW = bottomSize; }
 
-            float dripStartY = currentY + currentH + outerBorderThickness;
+            float leftWireX = currentX + 40.0f;
+            SDL_RenderLine(renderer, leftWireX, 0.0f, leftWireX, currentY);
 
-            SDL_RenderLine(renderer, currentX + 35.0f, dripStartY, currentX + 35.0f, dripStartY + 50.0f);
-            SDL_RenderLine(renderer, currentX + (currentW * 0.25f), dripStartY, currentX + (currentW * 0.25f), dripStartY + 80.0f);
-            SDL_RenderLine(renderer, currentX + (currentW * 0.5f), dripStartY, currentX + (currentW * 0.5f), dripStartY + 95.0f);
-            SDL_RenderLine(renderer, currentX + (currentW * 0.75f), dripStartY, currentX + (currentW * 0.75f), dripStartY + 60.0f);
-            SDL_RenderLine(renderer, currentX + currentW - 35.0f, dripStartY, currentX + currentW - 35.0f, dripStartY + 45.0f);
+            float rightWireX = currentX + currentW - 40.0f;
+            SDL_RenderLine(renderer, rightWireX, 0.0f, rightWireX, currentY);
         }
 
         for (int i = 0; i < 3; ++i) {
@@ -151,6 +149,15 @@ int main(int argc, char* argv[]) {
             if (i == 0) { currentX = topStartX; currentY = topRowY; currentW = topWidth; currentH = topHeight; }
             else if (i == 1) { currentX = topStartX + topWidth + topRowGap; currentY = topRowY; currentW = topWidth; currentH = topHeight; }
             else { currentX = bottomStartX; currentY = bottomRowY; currentW = bottomSize; currentH = bottomSize; }
+
+            SDL_FRect shadowFrame = {
+                currentX - outerBorderThickness + 4.0f,
+                currentY - outerBorderThickness + 4.0f,
+                currentW + (outerBorderThickness * 2.0f),
+                currentH + (outerBorderThickness * 2.0f)
+            };
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
+            SDL_RenderFillRect(renderer, &shadowFrame);
 
             SDL_FRect outerFrame = {
                 currentX - outerBorderThickness,
@@ -171,7 +178,6 @@ int main(int argc, char* argv[]) {
             SDL_RenderFillRect(renderer, &innerMolding);
 
             SDL_FRect imageRect = { currentX, currentY, currentW, currentH };
-
             if (textures[i] != nullptr) {
                 SDL_SetTextureColorMod(textures[i], 255, 255, 255);
                 SDL_RenderTexture(renderer, textures[i], nullptr, &imageRect);

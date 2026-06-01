@@ -133,7 +133,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\haunted2.bmp" />
     <Image Include="..\..\..\Downloads\Rendered_image.bmp" />
     <Image Include="SCENE 2(rendered).bmp" />
   </ItemGroup>
